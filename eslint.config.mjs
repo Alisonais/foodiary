@@ -14,7 +14,11 @@ export default defineConfig([
       'comma-dangle': ['error', 'always-multiline'],
       'object-curly-spacing': ['error', 'always'],
       'array-bracket-spacing': ['error', 'never'],
-      'space-before-function-paren': ['error', 'never'],
+      'space-before-function-paren': ['error', {
+        'anonymous': 'always',
+        'named': 'never',
+        'asyncArrow': 'always',
+      }],
       'arrow-spacing': ['error', { before: true, after: true }],
       'key-spacing': ['error', { beforeColon: false, afterColon: true }],
       'no-multiple-empty-lines': ['error', { max: 1 }],
@@ -38,4 +42,10 @@ export default defineConfig([
   },
   { files: ['**/*.{js,mjs,cjs,ts,mts,cts}'], languageOptions: { globals: globals.browser } },
   tseslint.configs.recommended,
+  {
+    rules: {
+      '@typescript-eslint/no-namespace': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
 ]);
