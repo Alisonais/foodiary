@@ -13,10 +13,24 @@ Resouce:
           AttributeType: S
         - AttributeName: SK
           AttributeType: S
+        - AttributeName: GSI1PK
+          AttributeType: S
         - AttributeName: GSI1SK
           AttributeType: S
       KeySchema:
         - AttributeName: PK
-          KeyType: hash
-        - AttributeName: PK
-          KeyType: hash
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      GobalSecundaryIndexes:
+        - IndexName: GSI1
+          Projection:
+            ProjectionType: ALL
+          KeySchema:
+            - AttributeName: GSI1PK
+              KeyType: HASH
+            - AttributeName: GSI1SK
+              KeyType: RANGE
+
+
+
