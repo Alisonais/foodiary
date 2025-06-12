@@ -39,6 +39,9 @@ export function lambdaHttpAdapter(controller: Controller<unknown>) {
         return lambdaErrorResponse(error);
       }
 
+      // eslint-disable-next-line no-console
+      console.log({ error });
+
       return lambdaErrorResponse({
         statusCode: 500,
         code: ErrorCode.INTERNAL_SERVER_ERROR,
