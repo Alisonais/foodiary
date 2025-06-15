@@ -1,5 +1,5 @@
 import { Controller } from '@aplication/contracts/Controller';
-import { SignUpUseCase } from '@aplication/useCases/auth/SignUpUseCases';
+import { SignUpUseCase } from '@aplication/useCases/auth/SignUpUseCase';
 import { Injectable } from '@kernel/decorators/injectable';
 import { Schema } from '@kernel/decorators/Schema';
 import { SignUpBody, signUpSchema } from './schemas/signUpSchema';
