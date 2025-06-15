@@ -1,5 +1,6 @@
 export enum ErrorCode {
   VALIDATION = 'VALIDATION',
+  EMAIL_ALREADY_IN_USE = 'EMAIL_ALREADY_IN_USE',
 
   // HTTP
 
