@@ -21,7 +21,10 @@
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.826.0",
+    "@aws-sdk/client-dynamodb": "^3.828.0",
+    "@aws-sdk/lib-dynamodb": "^3.828.0",
     "aws-crt": "^1.27.1",
+    "ksuid": "^3.0.0",
     "reflect-metadata": "^0.2.2",
     "zod": "^3.25.45"
   }
