@@ -1,4 +1,4 @@
-Resouce:
+Resources:
   MainTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -22,7 +22,7 @@ Resouce:
           KeyType: HASH
         - AttributeName: SK
           KeyType: RANGE
-      GobalSecundaryIndexes:
+      GlobalSecondaryIndexes:
         - IndexName: GSI1
           Projection:
             ProjectionType: ALL
