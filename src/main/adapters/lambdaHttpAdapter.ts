@@ -2,6 +2,7 @@ import { Controller } from '@aplication/contracts/Controller';
 import { ApplicationError } from '@aplication/errors/application/applicationError';
 import { ErrorCode } from '@aplication/errors/ErrorCode';
 import { HttpError } from '@aplication/errors/http/HttpError';
+import { UserNotFoundException } from '@aws-sdk/client-cognito-identity-provider';
 import { lambdaBodyParser } from '@main/utils/lambdaBodyparser';
 import { lambdaErrorResponse } from '@main/utils/lambdaErrorResponse';
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
@@ -44,6 +45,15 @@ export function lambdaHttpAdapter(controller: Controller<unknown>) {
         return lambdaErrorResponse({
           statusCode: error.statusCode ?? 400,
           code: error.code,
+          message: error.message,
+        });
+      }
+
+      // alison
+      if(error instanceof UserNotFoundException){
+        return lambdaErrorResponse({
+          statusCode: 401,
+          code: ErrorCode.USER_NOT_FOUND_EXCEPTION,
           message: error.message,
         });
       }
