@@ -37,3 +37,4 @@ resources:
 
 functions:
   - ${file(./sls/functions/auth.yml)}
+  - ${file(./sls/functions/meals.yml)}
