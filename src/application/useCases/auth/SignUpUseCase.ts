@@ -22,9 +22,16 @@ export class SignUpUseCase {
       throw new EmailAlreadyInUse();
     }
 
-    const { externalId } = await this.authGateway.SignUp({ email, password });
+    const account = new Account({ email });
 
-    const account = new Account({ email, externalId });
+    const { externalId } = await this.authGateway.SignUp({
+      email,
+      password,
+      internalId: account.id,
+    });
+
+    account.externalId = externalId;
+
     await this.accountRepository.create(account);
 
     const {

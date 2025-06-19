@@ -1,24 +1,32 @@
 import { Controller } from '@aplication/contracts/Controller';
-import { ApplicationError } from '@aplication/errors/application/applicationError';
+import { ApplicationError } from '@aplication/errors/application/ApplicationError';
 import { ErrorCode } from '@aplication/errors/ErrorCode';
 import { HttpError } from '@aplication/errors/http/HttpError';
 import { UserNotFoundException } from '@aws-sdk/client-cognito-identity-provider';
 import { lambdaBodyParser } from '@main/utils/lambdaBodyparser';
 import { lambdaErrorResponse } from '@main/utils/lambdaErrorResponse';
-import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
+import { APIGatewayProxyEventV2, APIGatewayProxyEventV2WithJWTAuthorizer, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { ZodError } from 'zod';
 
-export function lambdaHttpAdapter(controller: Controller<unknown>) {
-  return async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
+type Event = APIGatewayProxyEventV2 | APIGatewayProxyEventV2WithJWTAuthorizer
+
+export function lambdaHttpAdapter(controller: Controller<any, unknown>) {
+  return async (event: Event): Promise<APIGatewayProxyResultV2> => {
     try {
       const body = lambdaBodyParser(event.body);
       const params = event.pathParameters ?? {};
       const queryParams = event.queryStringParameters ?? {};
+      const accountId = (
+        'authorizer' in event.requestContext
+        ? event.requestContext.authorizer.jwt.claims.inteternalId as string
+        : null
+      );
 
       const response = await controller.execute({
         body,
         params,
         queryParams,
+        accountId,
       });
 
       return {
