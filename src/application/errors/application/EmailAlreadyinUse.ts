@@ -1,5 +1,5 @@
 import { ErrorCode } from '../ErrorCode';
-import { ApplicationError } from './applicationError';
+import { ApplicationError } from './ApplicationError';
 
 export class EmailAlreadyInUse extends ApplicationError {
   public override statusCode = 409;
