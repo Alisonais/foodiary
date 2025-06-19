@@ -68,7 +68,7 @@ export namespace AccountItem {
   export type Attrributes = {
     id: string;
     email: string;
-    externalId: string;
+    externalId: string | undefined;
     createdAt: string;
 
   }
