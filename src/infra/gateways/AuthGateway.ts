@@ -1,4 +1,5 @@
-import { InitiateAuthCommand, SignUpCommand } from '@aws-sdk/client-cognito-identity-provider';
+import { RefreshTokenReused } from '@aplication/errors/application/RefreshTokenReused';
+import { ConfirmForgotPasswordCommand, ForgotPasswordCommand, GetTokensFromRefreshTokenCommand, InitiateAuthCommand, RefreshTokenReuseException, SignUpCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from '@infra/clients/cognitoClient';
 import { Injectable } from '@kernel/decorators/injectable';
 import { AppConfig } from '@shared/config/AppConfig';
@@ -7,7 +8,7 @@ import { createHmac } from 'node:crypto';
 @Injectable()
 export class AuthGateway {
 
-  constructor(private readonly appConfig: AppConfig) {}
+  constructor(private readonly appConfig: AppConfig) { }
 
   private clientId = this.appConfig.auth.cognito.client.id;
   private clientSecret = this.appConfig.auth.cognito.client.secret;
@@ -35,12 +36,41 @@ export class AuthGateway {
 
     const { UserSub: externalId } = await cognitoClient.send(command);
 
-    if(!externalId){
+    if (!externalId) {
       throw new Error(`cannot signup user ${email}`);
     }
     return {
       externalId,
     };
+  }
+
+  async refreshToken({ refreshToken }: AuthGateway.RefreshTokenParams): Promise<AuthGateway.RefreshTokenResult> {
+    try {
+      const command = new GetTokensFromRefreshTokenCommand({
+        ClientId: this.clientId,
+        RefreshToken: refreshToken,
+        ClientSecret: this.clientSecret,
+      });
+
+      const { AuthenticationResult } = await cognitoClient.send(command);
+
+      if (!AuthenticationResult?.AccessToken || !AuthenticationResult.RefreshToken) {
+        throw new Error('Cannot refresh token.');
+      }
+
+      return {
+        accessToken: AuthenticationResult.AccessToken,
+        refreshToken: AuthenticationResult.RefreshToken,
+      };
+    } catch (err) {
+      // tratamento de erro epecifico
+      if(err instanceof RefreshTokenReuseException){
+        throw new RefreshTokenReused({ messageError: 'Refresh Token expired.' });
+      }
+
+      // tratament ode erro generico
+      throw new RefreshTokenReused({});
+    }
   }
 
   async SignIn({
@@ -59,7 +89,7 @@ export class AuthGateway {
 
     const { AuthenticationResult } = await cognitoClient.send(command);
 
-    if(!AuthenticationResult?.AccessToken || !AuthenticationResult.RefreshToken) {
+    if (!AuthenticationResult?.AccessToken || !AuthenticationResult.RefreshToken) {
       throw new Error(`cannot authenticate User: ${email}`);
     }
 
@@ -67,6 +97,28 @@ export class AuthGateway {
       accessToken: AuthenticationResult.AccessToken,
       refreshToken: AuthenticationResult.RefreshToken,
     };
+  }
+
+  async forgotPassword({ email }: AuthGateway.ForgotPasswordParams): Promise<void> {
+    const command = new ForgotPasswordCommand({
+      ClientId: this.clientId,
+      Username: email,
+      SecretHash: this.getSecretHash(email),
+    });
+
+    await cognitoClient.send(command);
+  }
+
+  async confirmForgotPassword({ email, confirmationCode, password }: AuthGateway.ConfirmForgotPasswordParams): Promise<void> {
+    const command = new ConfirmForgotPasswordCommand({
+      ClientId: this.clientId,
+      ConfirmationCode: confirmationCode,
+      Password: password,
+      Username: email,
+      SecretHash: this.getSecretHash(email),
+    });
+
+    await cognitoClient.send(command);
   }
 
 }
@@ -91,4 +143,24 @@ export namespace AuthGateway {
     accessToken: string;
     refreshToken: string;
   }
+
+  export type RefreshTokenParams = {
+    refreshToken: string;
+  }
+
+  export type RefreshTokenResult = {
+    accessToken: string;
+    refreshToken: string;
+  }
+
+  export type ForgotPasswordParams = {
+    email: string;
+  }
+
+  export type ConfirmForgotPasswordParams = {
+    email: string;
+    confirmationCode: string;
+    password: string;
+  }
 }
+
