@@ -11,6 +11,13 @@ signIn:
         method: POST
         path: /auth/sign-in
 
+refreshToken:
+  handler: src/main/functions/auth/refreshToken.handler
+  events:
+    - httpApi:
+        method: POST
+        path: /auth/refresh-token
+
 preSignUpTrigger:
   handler: src/main/functions/auth/preSignUpTrigger.handler
   events:
@@ -19,6 +26,20 @@ preSignUpTrigger:
         trigger: PreSignUp
         existing: true
         forceDeploy: true
+
+forgotPassword:
+  handler: src/main/functions/auth/forgotPassword.handler
+  events:
+    - httpApi:
+        method: POST
+        path: /auth/forgot-password
+
+confirmForgotPassword:
+  handler: src/main/functions/auth/confirmForgotPassword.handler
+  events:
+    - httpApi:
+        method: POST
+        path: /auth/forgot-password/confirm
 
 # The trigger is configured manuallyto suported event v2.
 # Go to UserPool.yml to see the cnfiguration.
