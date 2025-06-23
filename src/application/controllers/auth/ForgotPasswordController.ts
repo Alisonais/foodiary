@@ -21,8 +21,8 @@ export class ForgotPasswordController extends Controller<'public', ForgotPasswor
 
       await this.forgotPasswordUseCase.execute({ email });
 
-    } catch {
-      //
+    } catch (err) {
+      console.log(err);
     }
     return {
       statusCode: 204,
