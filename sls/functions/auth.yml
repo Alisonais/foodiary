@@ -18,15 +18,6 @@ refreshToken:
         method: POST
         path: /auth/refresh-token
 
-preSignUpTrigger:
-  handler: src/main/functions/auth/preSignUpTrigger.handler
-  events:
-    - cognitoUserPool:
-        pool: ${self:custom.cognito.PoolName}
-        trigger: PreSignUp
-        existing: true
-        forceDeploy: true
-
 forgotPassword:
   handler: src/main/functions/auth/forgotPassword.handler
   events:
@@ -45,5 +36,23 @@ confirmForgotPassword:
 # Go to UserPool.yml to see the cnfiguration.
 # Do not change this function name, without change in Userpool.yml.
 preTokenGenerationTrigger:
-  handler: src/main/functions/auth/preTokenGenerationTrigger.handler
+  handler: src/main/functions/auth/cognitoTrigger/preTokenGenerationTrigger.handler
+
+preSignUpTrigger:
+  handler: src/main/functions/auth/cognitoTrigger/preSignUpTrigger.handler
+  events:
+    - cognitoUserPool:
+        pool: ${self:custom.cognito.PoolName}
+        trigger: PreSignUp
+        existing: true
+        forceDeploy: true
+
+customMessageTrigger:
+  handler: src/main/functions/auth/cognitoTrigger/customMessageTrigger.handler
+  events:
+    - cognitoUserPool:
+        pool: ${self:custom.cognito.PoolName}
+        trigger: CustomMessage
+        existing: true
+        forceDeploy: true
 
