@@ -9,6 +9,7 @@
     "noImplicitOverride": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "jsx": "react",
     "baseUrl": ".",
     "paths": {
       "@aplication/*": ["src/application/*"],
