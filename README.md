@@ -1,69 +1,52 @@
-<!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS'
-description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
-layout: Doc
-framework: v4
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, Inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+# Foodiary API
 
-# Serverless Framework Node HTTP API on AWS
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
+![DynamoDB](https://img.shields.io/badge/Amazon%20DynamoDB-4053D6?logo=Amazon%20DynamoDB&logoColor=white)
+![Cognito](https://img.shields.io/badge/Amazon%20Cognito-4053D6?logo=Amazon%20cognito&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-F7DF1E?logo=typescript&logoColor=black)
+![Serverless](https://img.shields.io/badge/Serverless-F7DF1E?logo=serverless&logoColor=black)
 
-This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.
+API para gerenciamento de diário alimentar.
 
-This template does not include any kind of persistence (database). For more advanced examples, check out the [serverless/examples repository](https://github.com/serverless/examples/) which includes Typescript, Mongo, DynamoDB and other examples.
+---
 
-## Usage
+## 🚀 Tecnologias
 
-### Deployment
+- **Node.js**
+- **AWS**
+- **TypeScript**
 
-In order to deploy the example, you need to run the following command:
+---
 
-```
-serverless deploy
-```
+## ⚙️ Setup
 
-After running deploy, you should see output similar to:
+1. **Clone o repositório**
+  ```bash
+  git clone https://github.com/seu-usuario/foodiary-api.git
+  cd foodiary-api
+  ```
 
-```
-Deploying "serverless-http-api" to stage "dev" (us-east-1)
+2. **Instale as dependências**
+  ```bash
+  npm install
+  ```
 
-✔ Service deployed to stack serverless-http-api-dev (91s)
+3. **Configure as variáveis de ambiente**
+  - Crie um arquivo `.env` baseado no `.env.example`.
 
-endpoint: GET - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/
-functions:
-  hello: serverless-http-api-dev-hello (1.6 kB)
-```
+4. **Inicie o servidor**
+  ```bash
+  npm start
+  ```
 
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [HTTP API (API Gateway V2) event docs](https://www.serverless.com/framework/docs/providers/aws/events/http-api).
+---
 
-### Invocation
+## 📄 Endpoints
 
-After successful deployment, you can call the created application via HTTP:
+Consulte a documentação da API para detalhes dos endpoints.
 
-```
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
-```
+---
 
-Which should result in response similar to:
+## 📝 Licença
 
-```json
-{ "message": "Go Serverless v4! Your function executed successfully!" }
-```
-
-### Local development
-
-The easiest way to develop and test your function is to use the `dev` command:
-
-```
-serverless dev
-```
-
-This will start a local emulator of AWS Lambda and tunnel your requests to and from AWS Lambda, allowing you to interact with your function as if it were running in the cloud.
-
-Now you can invoke the function as before, but this time the function will be executed locally. Now you can develop your function locally, invoke it, and see the results immediately without having to re-deploy.
-
-When you are done developing, don't forget to run `serverless deploy` to deploy the function to the cloud.
+Este projeto está sob a licença MIT.
