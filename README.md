@@ -28,23 +28,12 @@ API para gerenciamento de diário alimentar.
 
 2. **Instale as dependências**
   ```bash
-  npm install
+  pnpm i
   ```
 
 3. **Configure as variáveis de ambiente**
   - Crie um arquivo `.env` baseado no `.env.example`.
-
-4. **Inicie o servidor**
-  ```bash
-  npm start
-  ```
-
----
-
-## 📄 Endpoints
-
-Consulte a documentação da API para detalhes dos endpoints.
-
+``
 ---
 
 ## 📝 Licença
