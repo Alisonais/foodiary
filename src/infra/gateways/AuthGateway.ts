@@ -1,5 +1,5 @@
 import { RefreshTokenReused } from '@aplication/errors/application/RefreshTokenReused';
-import { ConfirmForgotPasswordCommand, ForgotPasswordCommand, GetTokensFromRefreshTokenCommand, InitiateAuthCommand, RefreshTokenReuseException, SignUpCommand } from '@aws-sdk/client-cognito-identity-provider';
+import { AdminDeleteUserCommand, ConfirmForgotPasswordCommand, ForgotPasswordCommand, GetTokensFromRefreshTokenCommand, InitiateAuthCommand, RefreshTokenReuseException, SignUpCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { cognitoClient } from '@infra/clients/cognitoClient';
 import { Injectable } from '@kernel/decorators/injectable';
 import { AppConfig } from '@shared/config/AppConfig';
@@ -121,6 +121,17 @@ export class AuthGateway {
     await cognitoClient.send(command);
   }
 
+  async deleteUser({
+    externalId,
+  }: AuthGateway.DeleteUserParams) {
+    const command = new AdminDeleteUserCommand({
+      UserPoolId: this.appConfig.auth.cognito.pool.id,
+      Username: externalId,
+    });
+
+    await cognitoClient.send(command);
+  };
+
 }
 
 export namespace AuthGateway {
@@ -161,6 +172,10 @@ export namespace AuthGateway {
     email: string;
     confirmationCode: string;
     password: string;
+  }
+
+  export type DeleteUserParams = {
+    externalId: string;
   }
 }
 
