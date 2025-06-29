@@ -2,6 +2,7 @@ import { Account } from '@aplication/entities/Account';
 import { Goal } from '@aplication/entities/Goal';
 import { Profile } from '@aplication/entities/Profile';
 import { EmailAlreadyInUse } from '@aplication/errors/application/EmailAlreadyinUse';
+import { GoalCalculator } from '@aplication/services/GoalCalculaor';
 import { AccountRepository } from '@infra/database/dynamo/repositories/AccountRepository';
 import { SignUpUnitOfWork } from '@infra/database/dynamo/uow/SignUpUnitOfWork';
 import { AuthGateway } from '@infra/gateways/AuthGateway';
@@ -26,7 +27,7 @@ export class SignUpUseCase {
   }: SignUpUseCase.Input): Promise<SignUpUseCase.Output> {
 
     return this.saga.run(async () => {
-      const emailAlreadyInUse = await this.accountRepository.findEmail(email);
+      const emailAlreadyInUse = await this.accountRepository.findByEmail(email);
 
       if (emailAlreadyInUse) {
         throw new EmailAlreadyInUse();
@@ -37,12 +38,20 @@ export class SignUpUseCase {
         ...profileInfo,
         accountId: account.id,
       });
+
+      const {
+        calories,
+        carbohydrates,
+        fats,
+        proteins,
+      } = GoalCalculator.calculate(profile);
+
       const goal = new Goal({
         accountId: account.id,
-        calories: 2500,
-        carbohydrates: 500,
-        fats: 80,
-        proteins: 180,
+        calories,
+        carbohydrates,
+        fats,
+        proteins,
       });
 
       const { externalId } = await this.authGateway.SignUp({
@@ -87,6 +96,7 @@ export namespace SignUpUseCase {
       height: number;
       weight: number;
       activitylevel: Profile.ActivityLevel;
+      goal: Profile.Goal;
     }
   }
 
