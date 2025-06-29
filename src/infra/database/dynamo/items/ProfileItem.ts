@@ -4,7 +4,7 @@ import { AccountItem } from './AccountItem';
 export class ProfileItem {
   private readonly Keys: ProfileItem.Keys;
 
-  private readonly type = 'Profile';
+  static readonly type = 'Profile';
 
   constructor(private readonly attrs: ProfileItem.Attrributes) {
     this.Keys = {
@@ -18,7 +18,7 @@ export class ProfileItem {
     return {
       ...this.Keys,
       ...this.attrs,
-      type: this.type,
+      type: ProfileItem.type,
     };
   }
 
@@ -39,6 +39,7 @@ export class ProfileItem {
       height: profileItem.height,
       weight: profileItem.weight,
       activitylevel: profileItem.activitylevel,
+      goal: profileItem.goal,
       createdAt: new Date(profileItem.createdAt),
     });
   }
@@ -68,6 +69,7 @@ export namespace ProfileItem {
     height: number;
     weight: number;
     activitylevel: Profile.ActivityLevel;
+    goal: Profile.Goal;
     createdAt: string;
   }
 

@@ -4,7 +4,7 @@ import { AccountItem } from './AccountItem';
 export class GoalItem {
   private readonly Keys: GoalItem.Keys;
 
-  private readonly type = 'Goal';
+  static readonly type = 'Goal';
 
   constructor(private readonly attrs: GoalItem.Attrributes) {
     this.Keys = {
@@ -18,7 +18,7 @@ export class GoalItem {
     return {
       ...this.Keys,
       ...this.attrs,
-      type: this.type,
+      type: GoalItem.type,
     };
   }
 
