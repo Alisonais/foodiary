@@ -2,7 +2,7 @@ import { Controller } from '@aplication/contracts/Controller';
 import { UpdateGoalUseCase } from '@aplication/useCases/goals/UpdateGoalUseCase';
 import { Injectable } from '@kernel/decorators/injectable';
 import { Schema } from '@kernel/decorators/Schema';
-import { UpdateGoalBody, updateGoalSchema } from './Schema/updateProfileSchema';
+import { UpdateGoalBody, updateGoalSchema } from './Schema/updateGoalSchema';
 
 @Injectable()
 @Schema(updateGoalSchema)

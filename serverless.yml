@@ -37,6 +37,7 @@ resources:
   - ${file(./sls/resources/MainTable.yml)}
   - ${file(./sls/resources/APIGWCustomDomain.yml)}
   - ${file(./sls/resources/MealBucket.yml)}
+  - ${file(./sls/resources/MealBucketCDN.yml)}
 
 functions:
   - ${file(./sls/functions/auth.yml)}
