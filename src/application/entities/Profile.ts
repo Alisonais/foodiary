@@ -1,16 +1,14 @@
 
 export class Profile {
   readonly accountId: string;
-
+  readonly activitylevel: Profile.ActivityLevel;
+  readonly goal: Profile.Goal;
+  readonly createdAt: Date;
   name: string;
   birthDate: Date;
   gender: Profile.Gender;
   height: number;
   weight: number;
-  activitylevel: Profile.ActivityLevel;
-  goal: Profile.Goal;
-
-  readonly createdAt: Date;
 
   constructor(attr: Profile.attrributes) {
     this.accountId = attr.accountId;
