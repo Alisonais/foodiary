@@ -27,6 +27,7 @@ export class MealsFileStorgeGateway {
 
   async createPost({
     mealId,
+    accountId,
     file,
   }: MealsFileStorgeGateway.CreateBucketPOSTParams): Promise<MealsFileStorgeGateway.CreatePOSTResult> {
 
@@ -45,6 +46,7 @@ export class MealsFileStorgeGateway {
       ],
       Fields: {
         'x-amz-meta-mealid': mealId,
+        'x-amz-meta-accountid': accountId,
       },
     });
     const uploadSignature = Buffer.from(
@@ -70,6 +72,7 @@ export namespace MealsFileStorgeGateway {
 
   export type CreateBucketPOSTParams = {
     mealId: string;
+    accountId: string;
     file: {
       key: string;
       inputType: string;
