@@ -49,7 +49,7 @@ export namespace GetMealByIdController {
       icon: string,
       foods: Meal.Food[],
       status: Meal.Status,
-      inputFileKey: string,
+      inputFileURL: string,
       inputType: Meal.InputType,
     },
   }

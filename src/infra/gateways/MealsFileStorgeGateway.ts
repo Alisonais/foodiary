@@ -21,6 +21,10 @@ export class MealsFileStorgeGateway {
     return `${accountId}/${fileName}`; //1:56
   }
 
+  getFileUrl(fileKey: string) {
+    return `https://${this.config.cdn.mealsCDN}/${fileKey}`;
+  };
+
   async createPost({
     mealId,
     file,
@@ -54,8 +58,8 @@ export class MealsFileStorgeGateway {
     ).toString('base64');
 
     return { uploadSignature };
-
   }
+
 }
 
 export namespace MealsFileStorgeGateway {

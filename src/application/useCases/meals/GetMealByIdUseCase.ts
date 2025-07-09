@@ -1,12 +1,16 @@
 import { Meal } from '@aplication/entities/Meal';
 import { ResourceNotFound } from '@aplication/errors/application/ResourceNotFound';
 import { MealRepository } from '@infra/database/dynamo/repositories/MealRepository';
+import { MealsFileStorgeGateway } from '@infra/gateways/MealsFileStorgeGateway';
 import { Injectable } from '@kernel/decorators/injectable';
 
 @Injectable()
 export class GetMealByIdUseCase {
 
-  constructor( private readonly mealRepository: MealRepository ) {}
+  constructor(
+    private readonly mealRepository: MealRepository,
+    private readonly mealsFileStorgeGateway: MealsFileStorgeGateway,
+  ) {}
 
   async execute({
     accountId,
@@ -17,6 +21,8 @@ export class GetMealByIdUseCase {
     if(!meal) {
       throw new ResourceNotFound('Meal not found.');
     }
+
+    const inputFileURL = this.mealsFileStorgeGateway.getFileUrl(meal.inputFileKey);
     return {
       meal: {
         id: meal.id,
@@ -25,7 +31,7 @@ export class GetMealByIdUseCase {
         icon: meal.icon,
         foods: meal.foods,
         status: meal.status,
-        inputFileKey: meal.inputFileKey,
+        inputFileURL,
         inputType: meal.inputType,
       },
     };
@@ -43,7 +49,7 @@ export namespace GetMealByIdUseCase {
       id: string;
       status: Meal.Status;
       inputType: Meal.InputType;
-      inputFileKey: string;
+      inputFileURL: string;
       name: string;
       icon: string;
       foods: Meal.Food[];

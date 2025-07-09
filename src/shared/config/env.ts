@@ -12,6 +12,10 @@ export const schema = z.object({
 
   // Buckets
   MEALS_BUCKET: z.string().min(1),
+
+  // CDN
+  MEALS_CDN_DOMAIN_NAME: z.string().min(1),
+
 });
 
 export const env = schema.parse(process.env);
