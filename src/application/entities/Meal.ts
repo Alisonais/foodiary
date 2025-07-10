@@ -3,14 +3,14 @@ import KSUID from 'ksuid';
 export class Meal {
   readonly id: string;
   readonly accountId: string;
+  readonly inputType: Meal.InputType;
+  readonly inputFileKey: string;
+  readonly createdAt: Date;
   status: Meal.Status;
   attempts: number;
-  inputType: Meal.InputType;
-  inputFileKey: string;
   name: string;
   icon: string;
   foods: Meal.Food[];
-  readonly createdAt: Date;
 
   constructor(attr: Meal.attrributes) {
     this.id = attr.id ?? KSUID.randomSync().string;
