@@ -38,6 +38,8 @@ resources:
   - ${file(./sls/resources/APIGWCustomDomain.yml)}
   - ${file(./sls/resources/MealBucket.yml)}
   - ${file(./sls/resources/MealBucketCDN.yml)}
+  - ${file(./sls/resources/MealsQueue.yml)}
+
 
 functions:
   - ${file(./sls/functions/auth.yml)}
